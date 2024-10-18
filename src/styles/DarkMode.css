@@ -1,14 +1,18 @@
 :root {
   /* setting colors for our dark theme */
-  --font-color: #333;
+  --font-color: #121a21;
   --background-color: #eee;
   --link-color: cornflowerblue;
+  --primary-button-color: #6aee42;
+  --secondary-button-color: #317709;
 }
 
 [data-theme="dark"] {
   --font-color: #fbffff;
   --background-color:#121a21;
   --link-color: lightblue;
+  --primary-button-color: #2c90e2;
+  --secondary-button-color: #253743;
 }
 
 body {
@@ -24,9 +28,9 @@ a {
 .toggle-theme-wrapper {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: center;
   gap: 4px;
-  margin-right: 10px;
+  margin: 10px 10px 0px 10px;
 }
 
 .toggle-theme-wrapper span {

@@ -6,22 +6,37 @@
     height: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 5px;
+    border-bottom: 1px var(--font-color) solid;
+}
+.branding{
+    display: flex;
+    justify-content: center;
+
 }
 
 .logo{
     display: flex;
-    justify-content: flex-start;
+
     align-items: center;
     flex-direction: row;
     text-align: center;
-    font-size:medium;
+    margin: 0px 0px 10px 10px;
+    font-size:0.7em;
     font-weight: 800;
-    color: --font-color;
+    color: var(--font-color);
 
 }
 .logo > img{
     width: 48px;
     height: 48px;
     margin-right: 20px;
+}
+
+.navitems-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 5px;
+    color: var(--font-color);
+
 }

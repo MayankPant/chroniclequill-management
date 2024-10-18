@@ -1,13 +1,15 @@
-import React from 'react';
-import './App.css';
-import DarkMode from './Components/DarkMode';
-import Header from './Views/Header';
+import React from "react";
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Header from "./Views/Header";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-         <Header />
-      </header>
+      <BrowserRouter>
+        <header className="App-header">
+          <Header />
+        </header>
+      </BrowserRouter>
     </div>
   );
 }

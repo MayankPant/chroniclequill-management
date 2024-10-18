@@ -5,8 +5,8 @@ import { MouseEventHandler } from "react";
 type PropType = {
     styles: object,
     routeTo: string,
-    navItemName: string,
-    icon: any
+    navItemName?: string,
+    icon?: any
 }
 const NavItem = (props: PropType) => {
   const [hovered, isHovered] = useState<boolean>(false);
@@ -20,13 +20,10 @@ const NavItem = (props: PropType) => {
   };
 
   const defaultStyling: object = {
-    padding: "5px",
-    height: "30px",
-    width: "100px",
-    margin: "3px",
+    padding: "10px",
     borderRadius: "5px",
     cursor: "pointer",
-    fontSize: "0.9em",
+    fontSize: "0.7em",
     transition: "box-shadow 0.3s",
     display: "flex",
     justifyContent: "center",
@@ -35,7 +32,7 @@ const NavItem = (props: PropType) => {
     fontVariantCaps: "all-petite-caps",
   };
 
-  const passedStyling: object = props.styles;
+  const passedStyling: object = props.styles ? props.styles : {};
     // Styles for hover effect
     const hoverStyles = {
       boxShadow: hovered ? "0px 0px 5px #000000" : "",
