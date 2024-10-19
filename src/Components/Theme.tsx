@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 // Light and Dark theme color definitions
 const lightThemeColors = {
   primary: '#6aee42',  // Default light primary color for buttons
-  secondary: '#317709',
+  secondary: '#b8b9b8',
   background: '#eee', // for background
   text: '#121a21',
 };
