@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+
 import '../types/custom.d.ts'
 import chronicleLogo from '../assets/chroniclequill.svg'
 import DarkMode from "./DarkMode";
@@ -13,12 +13,6 @@ type PropType = {
 }
 
 const Logo = ({ logo, title}: PropType) => {
-    const theme = useTheme();
-    const styles =  {
-        backgroundColor: theme.palette.background.default,
-        color: theme.palette.text.primary,
-    }
-
     return (
       <div className="logo">
         <img src={logo} alt={title} width={'48px'} height={'48px'} />

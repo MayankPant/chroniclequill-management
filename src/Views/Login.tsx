@@ -1,13 +1,11 @@
 
 import React from "react";
-import { FormControl, TextField, ThemeProvider } from "@mui/material";
+import { FormControl, TextField, } from "@mui/material";
 import "../styles/Login.css";
 import { InputLabel, OutlinedInput } from "@mui/material";
 import { InputAdornment, IconButton } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { lightTheme, darkTheme } from "../Components/Theme";
-import {CssBaseline} from "@mui/material";
 import {useTheme} from "@mui/material";
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
