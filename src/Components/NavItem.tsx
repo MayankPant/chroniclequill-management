@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import { MouseEventHandler } from "react";
@@ -21,7 +21,7 @@ const NavItem = (props: PropType) => {
 
   const defaultStyling: object = {
     padding: "10px",
-    borderRadius: "5px",
+    borderRadius: "10px",
     cursor: "pointer",
     fontSize: "0.7em",
     transition: "box-shadow 0.3s",

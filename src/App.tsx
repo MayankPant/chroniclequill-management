@@ -1,16 +1,59 @@
-import React from "react";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./Views/Header";
+import Login from "./Views/Login";
+import React, { useState, useEffect } from "react";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { lightTheme, darkTheme } from "./Components/Theme"; // Import themes
+import { ChangeEventHandler } from "react";
+import { useTheme } from "@mui/material";
 function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Load saved theme from localStorage (if any) on component mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    console.log("Theme changed:", isDarkMode ? "Dark Mode" : "Light Mode");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+    } else {
+      setIsDarkMode(false);
+    }
+  }, [isDarkMode]);
+
+  // Function to toggle between light and dark modes
+  const toggleTheme: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (e.target.checked) {
+      console.log("Dark mode changed");
+      const newTheme = "dark";
+      setIsDarkMode(true);
+      localStorage.setItem("theme", newTheme); // Save user preference in localStorage
+    } else {
+      const newTheme = "light";
+      setIsDarkMode(false);
+      localStorage.setItem("theme", newTheme); // Save user preference in localStorage
+    }
+  };
+  const theme = useTheme();
+  const styles = {
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.primary,
+  };
+
   return (
-    <div className="App">
-      <BrowserRouter>
-        <header className="App-header">
-          <Header />
-        </header>
-      </BrowserRouter>
-    </div>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline />
+      <div style={styles} className="App">
+        <BrowserRouter>
+          <header className="App-header">
+            <Header themeToggle={toggleTheme} />
+          </header>
+          <main className="App-main">
+            <Login />
+          </main>
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 
