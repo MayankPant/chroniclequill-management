@@ -8,6 +8,7 @@ import { lightTheme, darkTheme } from "./Components/Theme"; // Import themes
 import { ChangeEventHandler } from "react";
 import { useTheme } from "@mui/material";
 import Dashboard  from "./Views/Dashboard";
+import ServiceLogViewer from "./Views/ServiceLogViewer";
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -55,6 +56,7 @@ function App() {
               <Route path="/home" element={<Dashboard />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/logviewer" element={<ServiceLogViewer />} />
             </Routes>
           </main>
         </BrowserRouter>

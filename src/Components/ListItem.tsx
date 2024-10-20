@@ -17,7 +17,7 @@ const ListItem = (props: PropType) => {
         <span style={{fontWeight: '100'}} className="total-entries">{"30"} log enteries</span>
         <span style={{fontWeight: '800', fontSize: '1.5em'}} className="service-name">frontend-production</span>
         <span style={{fontWeight: '100',}} className="description">This is the main web application for our product. Its the first thing most of our users see.</span>
-        <Button children={'view'} size="large" sx={{backgroundColor: theme.palette.secondary.main, color: theme.palette.text.primary}} />
+        <Button children={'view'} size="large" sx={{backgroundColor: theme.palette.secondary.main, color: theme.palette.text.primary}} href="/logviewer"  />
       </div>
       <div className="service-image">
         <img src="" alt=""/>
