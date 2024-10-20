@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Views/Header";
 import Login from "./Views/Login";
 import React, { useState, useEffect } from "react";
@@ -7,6 +7,7 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./Components/Theme"; // Import themes
 import { ChangeEventHandler } from "react";
 import { useTheme } from "@mui/material";
+import Dashboard  from "./Views/Dashboard";
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -49,7 +50,12 @@ function App() {
             <Header themeToggle={toggleTheme} />
           </header>
           <main className="App-main">
-            <Login />
+            <Routes>
+              <Route path="/" element={<Navigate to={"/home"} />} />
+              <Route path="/home" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
           </main>
         </BrowserRouter>
       </div>

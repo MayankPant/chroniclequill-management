@@ -31,7 +31,9 @@
 
 .App-main{
   position: absolute;
-  top: 20%;
+  top: 10%;
+  width: 90%;
+  height: 100%;
 }
 
 
