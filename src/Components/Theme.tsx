@@ -13,6 +13,7 @@ const darkThemeColors = {
   secondary: '#253743',
   background: '#121a21', //for background
   text: '#fbffff',
+  textSecondary: '#606e78'
 };
 
 // Creating the light theme
@@ -81,6 +82,7 @@ export const darkTheme = createTheme({
     },
     text: {
       primary: darkThemeColors.text,
+      secondary: darkThemeColors.textSecondary
     },
   },
   components: {
