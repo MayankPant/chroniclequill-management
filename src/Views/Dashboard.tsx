@@ -21,7 +21,7 @@ const Dashboard = () => {
         </span>
       </div>
 
-      <FormControl sx={{ marginTop: "2em", width: "100%" }} variant="outlined">
+      <FormControl sx={{ marginTop: "2em", width: "80%" }} variant="outlined">
         <InputLabel htmlFor="search-bar">Search....</InputLabel>
         <OutlinedInput
           id="search-bar"
