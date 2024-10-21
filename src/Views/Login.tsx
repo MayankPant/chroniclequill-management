@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { FormControl, TextField } from "@mui/material";
 import "../styles/Login.css";
 import { InputLabel, OutlinedInput } from "@mui/material";
@@ -8,9 +8,20 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useTheme } from "@mui/material";
 import { Link } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import { TokenContext } from "../context/TokenContext";
+import { Navigate} from "react-router-dom";
+
+
 const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [loading, isLoading] = useState<boolean>(false);
+  const [loginButtonLoader, setLoginButtonLoader] = useState<boolean>(false);
+  const [signupButtonLoader, setSignupButtonLoader] = useState<boolean>(false);
+  const {login, isAuthenticated} = React.useContext(TokenContext);
+
+
+
+    const[username, setUsername] = useState<string>('');
+    const[password, setPassword] = useState<string>('');
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -26,11 +37,32 @@ const Login = () => {
     event.preventDefault();
   };
 
+  const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setUsername(event.currentTarget.value);
+  }
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setPassword(event.currentTarget.value);
+  }
+
+  const loginUser =async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+    setLoginButtonLoader(true);   
+    var loginInSuccessful: boolean = await login(username, password);
+        if(loginInSuccessful){
+            setLoginButtonLoader(false);
+            return;
+        }
+        alert("Login Failed");
+        setLoginButtonLoader(false);
+  }
+
   const theme = useTheme();
   const styles = {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
   };
+
+    if(isAuthenticated)
+        return <Navigate to={'/dashboard'} />
 
   return (
     <div style={styles} className="login-wrapper">
@@ -42,6 +74,8 @@ const Login = () => {
           label="Email Address"
           variant="outlined"
           sx={{ width: "55ch" }}
+          value={username}
+          onChange={handleUserChange}
         />
         <FormControl sx={{ width: "55ch" }} required variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">
@@ -50,6 +84,8 @@ const Login = () => {
           <OutlinedInput
             id="outlined-adornment-password"
             type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={handlePasswordChange}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -71,11 +107,12 @@ const Login = () => {
         </Link>
 
         <LoadingButton
-          loading={loading}
+          loading={loginButtonLoader}
           loadingPosition="start"
           children={"Login"}
           variant="contained"
           sx={{ width: "100%" }}
+          onClick={loginUser}
         />
 
         <Link color={styles.color} href="#">
@@ -83,7 +120,7 @@ const Login = () => {
         </Link>
 
         <LoadingButton
-          loading={loading}
+          loading={signupButtonLoader}
           loadingPosition="start"
           children={"SIGN UP"}
           variant="contained"
