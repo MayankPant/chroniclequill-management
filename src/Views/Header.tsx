@@ -7,7 +7,7 @@ interface ChildComponentProps {
 const  Header = (props: ChildComponentProps) => {
     return (
         <div className="header-wrapper">
-            <NavBar themeToggle = {props.themeToggle} />
+            <NavBar />
         </div>
     )
 }

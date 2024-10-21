@@ -9,6 +9,10 @@ import { ChangeEventHandler } from "react";
 import { useTheme } from "@mui/material";
 import Dashboard  from "./Views/Dashboard";
 import ServiceLogViewer from "./Views/ServiceLogViewer";
+import DarkMode from "./Components/DarkMode";
+
+
+
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -24,7 +28,7 @@ function App() {
   }, [isDarkMode]);
 
   // Function to toggle between light and dark modes
-  const toggleTheme: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const themeToggle: ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.checked) {
       console.log("Dark mode changed");
       const newTheme = "dark";
@@ -48,7 +52,7 @@ function App() {
       <div style={styles} className="App">
         <BrowserRouter>
           <header className="App-header">
-            <Header themeToggle={toggleTheme} />
+            <Header themeToggle={themeToggle} />
           </header>
           <main className="App-main">
             <Routes>
@@ -59,6 +63,9 @@ function App() {
               <Route path="/logviewer" element={<ServiceLogViewer />} />
             </Routes>
           </main>
+          <footer style={styles} className="App-footer">
+          <DarkMode themeToggle={themeToggle} />
+          </footer>
         </BrowserRouter>
       </div>
     </ThemeProvider>

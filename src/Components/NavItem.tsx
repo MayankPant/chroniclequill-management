@@ -20,7 +20,7 @@ const NavItem = (props: PropType) => {
   };
 
   const defaultStyling: object = {
-    padding: "10px",
+    padding: "8px",
     borderRadius: "10px",
     cursor: "pointer",
     fontSize: "0.7em",

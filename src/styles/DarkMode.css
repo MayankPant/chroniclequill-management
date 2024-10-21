@@ -1,32 +1,14 @@
 /* file is just here for reference. Not used in MUI thememing */
-:root {
-  /* setting colors for our dark theme */
-  --font-color: #121a21;
-  --background-color: #eee;
-  --link-color: cornflowerblue;
-  --primary-button-color: #6aee42;
-  --secondary-button-color: #b8b9b8;
-}
-
-[data-theme="dark"] {
-  --font-color: #fbffff;
-  --background-color:#121a21;
-  --link-color: lightblue;
-  --primary-button-color: #2c90e2;
-  --secondary-button-color: #253743;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--font-color);
-}
-
-a {
-  color: var(--link-color);
-}
 
 
 /* switch settings 👇 */
+
+.darkmode-switch{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
 
 .ui-switch {
     /* switch */

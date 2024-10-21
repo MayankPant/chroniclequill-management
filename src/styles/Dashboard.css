@@ -3,8 +3,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 90%;
-    height: 100%;
+    width: 100%;
+    padding: 2%;
 }
 .dashboard-title{
     display: flex;

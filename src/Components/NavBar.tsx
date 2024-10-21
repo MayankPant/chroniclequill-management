@@ -20,11 +20,9 @@ const Logo = ({ logo, title}: PropType) => {
       </div>
     );
   };
-  interface ChildComponentProps {
-    themeToggle:ChangeEventHandler<HTMLInputElement>;
-}
 
-const NavBar = (props: ChildComponentProps) => {
+
+const NavBar = () => {
     const theme = useTheme();
     const navBarStyles =  {
         backgroundColor: theme.palette.background.default,
@@ -42,7 +40,7 @@ const NavBar = (props: ChildComponentProps) => {
                 <NavItem navItemName="Documentation" styles={{color: theme.palette.text.primary}} routeTo="documentation" />
                 <NavItem navItemName="Community" styles={{color: theme.palette.text.primary}} routeTo="community"  />
                 <NavItem navItemName="Sign in" styles={{backgroundColor: theme.palette.primary.main, color: theme.palette.text.primary}} routeTo="signin" />
-                <DarkMode themeToggle={props.themeToggle} />
+                
             </div>
             
         </div>

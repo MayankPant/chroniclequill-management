@@ -24,7 +24,7 @@ const ServiceLogViewer = () => {
   const theme = useTheme();
 
   return (
-    <div style={{color: theme.palette.text.primary}} className="log-viewer">
+    <div style={{color: theme.palette.text.primary, backgroundColor: theme.palette.background.default}} className="log-viewer">
       <div className="service-name">
         <span style={{fontWeight:'900', fontSize: '2em'}}>frontend-production</span>
         <span>Log</span>
