@@ -1,12 +1,13 @@
 
 import '../types/custom.d.ts'
-import chronicleLogo from '../assets/chroniclequill.svg'
-import DarkMode from "./DarkMode";
+import chronicleLogo from '../assets/chroniclequill.svg';
 import '../styles/NavBar.css'
 import NavItem from "./NavItem";
-import { useTheme } from "@mui/material";
-import { ChangeEventHandler } from "react";
-
+import { IconButton, useTheme } from "@mui/material";
+import { Logout } from '@mui/icons-material';
+import { useContext } from 'react';
+import { TokenContext } from '../context/TokenContext';
+import { Navigate } from 'react-router-dom';
 type PropType = {
     logo: string,
     title: string,
@@ -23,12 +24,15 @@ const Logo = ({ logo, title}: PropType) => {
 
 
 const NavBar = () => {
+    const {logout, isAuthenticated} = useContext(TokenContext);
     const theme = useTheme();
     const navBarStyles =  {
         backgroundColor: theme.palette.background.default,
         color: theme.palette.text.primary,
         borderBottom: `1px ${theme.palette.text.primary} solid`
     }
+    if(!isAuthenticated)
+        return <Navigate to={'/login'}></Navigate>
 
     return (
         <div style={navBarStyles} className="navbar-wrapper">
@@ -40,7 +44,7 @@ const NavBar = () => {
                 <NavItem navItemName="Documentation" styles={{color: theme.palette.text.primary}} routeTo="documentation" />
                 <NavItem navItemName="Community" styles={{color: theme.palette.text.primary}} routeTo="community"  />
                 <NavItem navItemName="Sign in" styles={{backgroundColor: theme.palette.primary.main, color: theme.palette.text.primary}} routeTo="signin" />
-                
+                <IconButton children={<Logout/>}  onClick={logout}/>
             </div>
             
         </div>
