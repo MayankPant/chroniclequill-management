@@ -108,7 +108,7 @@ const Login = () => {
 
         <LoadingButton
           loading={loginButtonLoader}
-          loadingPosition="start"
+          loadingPosition="center"
           children={"Login"}
           variant="contained"
           sx={{ width: "100%" }}
@@ -121,7 +121,7 @@ const Login = () => {
 
         <LoadingButton
           loading={signupButtonLoader}
-          loadingPosition="start"
+          loadingPosition="center"
           children={"SIGN UP"}
           variant="contained"
           sx={{ width: "100%", backgroundColor: theme.palette.secondary.main }}

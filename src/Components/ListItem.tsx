@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { useTheme } from "@mui/material";
 import "../styles/ListItem.css";
 import { Button } from "@mui/material";
+import { useContext } from "react";
+import ServiceContext from "../context/ServiceContext";
 
 interface PropType {
-  service: object;
+  service: string;
 }
 
 const ListItem = (props: PropType) => {
   const theme = useTheme();
-  const service: object = props.service;
+
+  const service = props.service;
+
+  const { services, setServices } = useContext(ServiceContext);
   return (
     <div
       style={{
@@ -20,24 +25,23 @@ const ListItem = (props: PropType) => {
       className="service-wrapper"
     >
       <div className="description">
-        <span
+        {/* <span
           style={{ fontWeight: "100", color: theme.palette.text.secondary }}
           className="total-entries"
         >
-          {"30"} log enteries
-        </span>
+          {services.get(service)} log enteries
+        </span> */}
         <span
           style={{ fontWeight: "800", fontSize: "1.5em" }}
           className="service-name"
         >
-          frontend-production
+          {service}
         </span>
         <span
           style={{ fontWeight: "100", color: theme.palette.text.secondary }}
           className="description"
         >
-          This is the main web application for our product. Its the first thing
-          most of our users see.
+          {services.get(service)}
         </span>
         <Button
           children={"view"}

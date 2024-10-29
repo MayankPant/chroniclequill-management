@@ -10,6 +10,7 @@ import { useTheme } from "@mui/material";
 import Dashboard  from "./Views/Dashboard";
 import ServiceLogViewer from "./Views/ServiceLogViewer";
 import DarkMode from "./Components/DarkMode";
+import ServiceProvider from "./Components/ServiceProvider";
 
 
 
@@ -51,10 +52,11 @@ function App() {
       <CssBaseline />
       <div style={styles} className="App">
         <BrowserRouter>
-          <header className="App-header">
-            <Header themeToggle={themeToggle} />
+          <header className="App-header"> 
+            <Header  />
           </header>
-          <main className="App-main">
+          <ServiceProvider>
+            <main className="App-main">
             <Routes>
               <Route path="/" element={<Navigate to={"/home"} />} />
               <Route path="/home" element={<Dashboard />} />
@@ -63,6 +65,7 @@ function App() {
               <Route path="/logviewer" element={<ServiceLogViewer />} />
             </Routes>
           </main>
+          </ServiceProvider>
           <footer style={styles} className="App-footer">
           <DarkMode themeToggle={themeToggle} />
           </footer>

@@ -46,6 +46,10 @@ export const lightTheme = createTheme({
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: lightThemeColors.primary,  // Hover state
           },
+        '& input:-webkit-autofill': {
+            '-webkit-box-shadow': `0 0 0 100px ${lightThemeColors.background} inset`,
+            '-webkit-text-fill-color': `${lightThemeColors.text}`,
+          },
         },
       },
     },
@@ -61,6 +65,10 @@ export const lightTheme = createTheme({
             '&:hover .MuiOutlinedInput-notchedOutline': {
               borderColor: lightThemeColors.primary,
             },
+            '& input:-webkit-autofill': {
+            '-webkit-box-shadow': `0 0 0 100px ${lightThemeColors.background} inset`,
+            '-webkit-text-fill-color': `${lightThemeColors.text}`,
+          },
           },
         },
       },
@@ -98,6 +106,10 @@ export const darkTheme = createTheme({
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: darkThemeColors.primary,
           },
+          '& input:-webkit-autofill': {
+            '-webkit-box-shadow': `0 0 0 100px ${darkThemeColors.background} inset`,
+            '-webkit-text-fill-color': `${darkThemeColors.text}`,
+          },
         },
       },
     },
@@ -113,6 +125,10 @@ export const darkTheme = createTheme({
             '&:hover .MuiOutlinedInput-notchedOutline': {
               borderColor: darkThemeColors.primary,
             },
+            '& input:-webkit-autofill': {
+            '-webkit-box-shadow': `0 0 0 100px ${darkThemeColors.background} inset`,
+            '-webkit-text-fill-color': `${darkThemeColors.text}`,
+          },
           },
         },
       },
