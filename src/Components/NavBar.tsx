@@ -31,8 +31,7 @@ const NavBar = () => {
         color: theme.palette.text.primary,
         borderBottom: `1px ${theme.palette.text.primary} solid`
     }
-    if(!isAuthenticated)
-        return <Navigate to={'/login'}></Navigate>
+    
 
     return (
         <div style={navBarStyles} className="navbar-wrapper">
