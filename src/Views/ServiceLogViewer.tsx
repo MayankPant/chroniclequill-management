@@ -12,6 +12,7 @@ import { useContext } from "react";
 import SelectedServiceContext from "../context/SelectedServiceContext";
 import { SelectChangeEvent } from "@mui/material";
 import useWebSocket from "react-use-websocket";
+import '../styles/ServiceLogViewer.css'
 
 const ServiceLogViewer = () => {
   const [level, setLevel] = useState("debug");
@@ -38,12 +39,12 @@ const ServiceLogViewer = () => {
       const log_data = JSON.parse(lastJsonMessage[0]);
       console.log("Parsed log data: ", log_data);
       setLogs((prev: Array<ServiceMessage>) => [
-        ...prev,
         {
           message: log_data["message"],
           time: log_data["timestamp"],
           level: log_data["level"],
         },
+        ...prev
       ]);
     }
   }, [lastJsonMessage]);
@@ -76,7 +77,7 @@ const ServiceLogViewer = () => {
     >
       <div className="service-name">
         <span style={{ fontWeight: "900", fontSize: "2em" }}>
-          frontend-production
+          {selectedService}
         </span>
         <span>Log</span>
         <div className="log-filter">
@@ -115,7 +116,7 @@ const ServiceLogViewer = () => {
             </Select>
           </FormControl>
         </div>
-        <Stack>
+        <Stack spacing={2} sx={{height: '600px', overflow: 'auto'}}>
           {logs.map((log, index) => (
             <LogEntry
               key={index}

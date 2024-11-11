@@ -1,9 +1,9 @@
 .log-entry{
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: start;
     align-items: flex-start;
-    gap: 10px
+    gap: 10px;
 }
 
 

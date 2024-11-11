@@ -8,7 +8,7 @@ const LogEntry = (props: LogEntry) => {
         backgroundColor: theme.palette.background.default,
         color: theme.palette.text.secondary,
         border: `1px solid ${theme.palette.secondary.main}`,
-        padding: '10px'
+        padding: '10px',
     }
     return(
         <div style={styles} className="log-entry">
