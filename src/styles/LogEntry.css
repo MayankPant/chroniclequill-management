@@ -1,15 +1,30 @@
-.log-entry{
+.log-entry {
     display: flex;
-    flex-direction: row;
-    justify-content: start;
     align-items: flex-start;
+    position: relative; /* For positioning the transaction time at the top right */
+    padding: 10px;
     gap: 10px;
 }
 
+.transaction-time {
+    position: absolute;
+    top: 0.5em;
+    right: 2em;
 
+}
 
-.entry-details{
+.entry-details {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-start; /* Centers the message */
+    text-align: left;
+}
+
+.timing {
+    align-self: flex-start; /* Aligns timing to the top left within entry-details */
+}
+
+.language-icon {
+    align-self: center; /* Centers language icon at start */
+    margin-right: 10px; /* Space between icon and entry-details */
 }
