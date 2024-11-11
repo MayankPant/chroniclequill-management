@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import {
   InputLabel,
   OutlinedInput,
@@ -9,42 +9,72 @@ import {
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import ListItem from "../Components/ListItem";
-import Connection from "../Components/WebSocket";
 import ServiceContext from "../context/ServiceContext";
 import "../styles/Dashboard.css";
+import useWebSocket from "react-use-websocket";
+import { ReadyState } from "react-use-websocket";
+import { WebSocketLike } from "react-use-websocket/dist/lib/types";
 
-const websocket = new Connection().establishConnection();
-websocket.onopen = () => {
-  console.log("Connected to WebSocket");
-};
 
 const Dashboard = () => {
   const theme = useTheme();
   const { services, setServices } = useContext(ServiceContext);
+  const socketUrl = "ws://0.0.0.0:8001/log/";
+  const { sendJsonMessage, lastJsonMessage, lastMessage,  readyState, getWebSocket } =
+    useWebSocket<IncomingMessage>(socketUrl);
 
   const dashboardStyles = {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
   };
 
-  websocket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    const serviceName = data["service_name"];
-    const description = JSON.parse(data["message"])["description"];
+  // Check WebSocket connection status in readable format
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: "Connecting",
+    [ReadyState.OPEN]: "Open",
+    [ReadyState.CLOSING]: "Closing",
+    [ReadyState.CLOSED]: "Closed",
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
+  }[readyState];
 
-    // Update services map with new entry or updated description
-    setServices((prevServices) => {
-      const updatedServices = new Map(prevServices);
-      updatedServices.set(serviceName, description);
-      return updatedServices;
-    });
+  useEffect(() => {
 
-    console.log("Received data:", data);
-  };
+    if(connectionStatus === 'Open'){
+      sendJsonMessage({
+        event: 'CONSUMER_TOGGLE',
+        value: 0
+      })
+    }
+  }, [connectionStatus, sendJsonMessage]);
 
-  websocket.onclose = () => {
-    console.log("Disconnected from WebSocket");
-  };
+  useEffect(() => {
+    console.log("Current state of websocket connection: ", connectionStatus);
+    if (typeof lastJsonMessage === "object" && connectionStatus === 'Open' && lastJsonMessage != null) {
+      const serviceName = lastJsonMessage["service_name"];
+      const description = JSON.parse(lastJsonMessage["message"])["description"];
+
+      // Update services map with new entry or updated description
+      setServices((prevServices) => {
+        const updatedServices = new Map(prevServices);
+        updatedServices.set(serviceName, description);
+        return updatedServices;
+      });
+
+      console.log("Received data:", lastJsonMessage);
+    }
+    if(connectionStatus === 'Closed'){
+      console.log("Connection to websocket closed.")
+    }
+
+    return () => {
+      sendJsonMessage({
+        event: 'CONSUMER_TOGGLE',
+        value: 1
+      })
+    }
+
+  }, [lastJsonMessage, setServices, connectionStatus, lastMessage, sendJsonMessage]);
+
 
   return (
     <div style={dashboardStyles} className="dashboard-wrapper">
@@ -53,7 +83,11 @@ const Dashboard = () => {
         description="View and filter logs from your services"
       />
       <SearchBar />
-      <ServiceList services={services} styles={dashboardStyles} />
+      <ServiceList
+        services={services}
+        styles={dashboardStyles}
+        websocket={getWebSocket}
+      />
     </div>
   );
 };
@@ -93,13 +127,15 @@ const SearchBar = () => (
 const ServiceList = ({
   services,
   styles,
+  websocket
 }: {
   services: Map<string, string>;
   styles: React.CSSProperties;
+  websocket: () => WebSocketLike | null;
 }) => (
   <div style={styles} className="services">
     {Array.from(services.keys()).map((service, index) => (
-      <ListItem key={index} service={service} />
+      <ListItem key={index} service={service} websocket={websocket}/>
     ))}
   </div>
 );

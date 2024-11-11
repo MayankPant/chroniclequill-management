@@ -1,18 +1,40 @@
-import React, { useState } from "react";
 import { useTheme } from "@mui/material";
 import "../styles/ListItem.css";
 import { Button } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ServiceContext from "../context/ServiceContext";
+import SelectedServiceContext from "../context/SelectedServiceContext";
+import { useNavigate } from "react-router-dom";
+import { SendJsonMessage, WebSocketLike } from "react-use-websocket/dist/lib/types";
 
 interface PropType {
   service: string;
+  websocket?:  () => WebSocketLike | null
 }
 
 const ListItem = (props: PropType) => {
   const theme = useTheme();
 
+
   const service = props.service;
+  const navigate = useNavigate();
+  const {
+    setSelectedService,
+    setLevel,
+    setLines,
+  } = useContext(SelectedServiceContext);
+
+  useEffect(()=> {
+    if(props.websocket != null)
+      props.websocket()?.close();
+  }, [props.websocket, props])
+
+  function setServiceAndRoute() {
+    setSelectedService(service);
+    setLevel('all');
+    setLines('all');
+    navigate("/logviewer");
+  }
 
   const { services, setServices } = useContext(ServiceContext);
   return (
@@ -50,7 +72,7 @@ const ListItem = (props: PropType) => {
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.text.primary,
           }}
-          href="/logviewer"
+          onClick={setServiceAndRoute}
         />
       </div>
       <div className="service-image">

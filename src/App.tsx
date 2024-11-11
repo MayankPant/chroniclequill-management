@@ -7,15 +7,18 @@ import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./Components/Theme"; // Import themes
 import { ChangeEventHandler } from "react";
 import { useTheme } from "@mui/material";
-import Dashboard  from "./Views/Dashboard";
+import Dashboard from "./Views/Dashboard";
 import ServiceLogViewer from "./Views/ServiceLogViewer";
 import DarkMode from "./Components/DarkMode";
 import ServiceProvider from "./Components/ServiceProvider";
+import SelectedServiceProvider from "./Components/SelectedServiceProvider";
+
 
 
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+
 
   // Load saved theme from localStorage (if any) on component mount
   useEffect(() => {
@@ -52,22 +55,27 @@ function App() {
       <CssBaseline />
       <div style={styles} className="App">
         <BrowserRouter>
-          <header className="App-header"> 
-            <Header  />
+          <header className="App-header">
+            <Header />
           </header>
           <ServiceProvider>
-            <main className="App-main">
-            <Routes>
-              <Route path="/" element={<Navigate to={"/home"} />} />
-              <Route path="/home" element={<Dashboard />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/logviewer" element={<ServiceLogViewer />} />
-            </Routes>
-          </main>
+            <SelectedServiceProvider>
+              <main className="App-main">
+                <Routes>
+                  <Route path="/" element={<Navigate to={"/home"} />} />
+                  <Route path="/home" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route
+                    path="/logviewer"
+                    element={<ServiceLogViewer />}
+                  />
+                </Routes>
+              </main>
+            </SelectedServiceProvider>
           </ServiceProvider>
           <footer style={styles} className="App-footer">
-          <DarkMode themeToggle={themeToggle} />
+            <DarkMode themeToggle={themeToggle} />
           </footer>
         </BrowserRouter>
       </div>
