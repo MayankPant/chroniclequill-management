@@ -20,7 +20,7 @@ const Dashboard = () => {
   const theme = useTheme();
   const { services, setServices } = useContext(ServiceContext);
   const socketUrl = "ws://0.0.0.0:8001/log/";
-  const { sendJsonMessage, lastJsonMessage, lastMessage,  readyState, getWebSocket } =
+  const { sendJsonMessage, lastJsonMessage, readyState, getWebSocket } =
     useWebSocket<IncomingMessage>(socketUrl);
 
   const dashboardStyles = {
@@ -45,11 +45,11 @@ const Dashboard = () => {
         value: 0
       })
     }
-  }, [connectionStatus, sendJsonMessage]);
+  }, []);
 
   useEffect(() => {
     console.log("Current state of websocket connection: ", connectionStatus);
-    if (typeof lastJsonMessage === "object" && connectionStatus === 'Open' && lastJsonMessage != null) {
+    if (typeof lastJsonMessage === "object" && connectionStatus === 'Open' && lastJsonMessage !== null) {
       const serviceName = lastJsonMessage["service_name"];
       const description = JSON.parse(lastJsonMessage["message"])["description"];
 
@@ -66,14 +66,8 @@ const Dashboard = () => {
       console.log("Connection to websocket closed.")
     }
 
-    return () => {
-      sendJsonMessage({
-        event: 'CONSUMER_TOGGLE',
-        value: 1
-      })
-    }
 
-  }, [lastJsonMessage, setServices, connectionStatus, lastMessage, sendJsonMessage]);
+  }, [lastJsonMessage, services, connectionStatus]);
 
 
   return (

@@ -24,10 +24,7 @@ const ListItem = (props: PropType) => {
     setLines,
   } = useContext(SelectedServiceContext);
 
-  useEffect(()=> {
-    if(props.websocket != null)
-      props.websocket()?.close();
-  }, [props.websocket, props])
+  
 
   function setServiceAndRoute() {
     setSelectedService(service);
