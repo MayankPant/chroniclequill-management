@@ -40,3 +40,21 @@ interface OutgoingMessage {
   type: string;
   payload: any;
 }
+
+/**
+ * In react there are local modules and global modules.
+ * if you use an import statement react treats no longer treats the
+ * module as global
+ * 
+ */
+interface WebSocketContextType {
+    sendMessage: import('react-use-websocket/dist/lib/types').SendMessage;
+    lastMessage: unknown;
+    readyState: import('react-use-websocket').ReadyState;
+    sendJsonMessage: import('react-use-websocket/dist/lib/types').SendJsonMessage;
+    lastJsonMessage: IncomingMessage
+}
+
+interface WebSocketProviderProps {
+    children: ReactNode;
+}

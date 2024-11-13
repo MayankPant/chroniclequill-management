@@ -11,17 +11,14 @@ import { Search } from "@mui/icons-material";
 import ListItem from "../Components/ListItem";
 import ServiceContext from "../context/ServiceContext";
 import "../styles/Dashboard.css";
-import useWebSocket from "react-use-websocket";
 import { ReadyState } from "react-use-websocket";
-import { WebSocketLike } from "react-use-websocket/dist/lib/types";
-
+import { useWebSocketContext } from "../Components/WebSocketProvider";
 
 const Dashboard = () => {
   const theme = useTheme();
   const { services, setServices } = useContext(ServiceContext);
-  const socketUrl = "ws://0.0.0.0:8001/log/";
-  const { sendJsonMessage, lastJsonMessage, readyState, getWebSocket } =
-    useWebSocket<IncomingMessage>(socketUrl);
+  const {sendJsonMessage, lastJsonMessage, readyState} =
+    useWebSocketContext();
 
   const dashboardStyles = {
     backgroundColor: theme.palette.background.default,
@@ -45,7 +42,7 @@ const Dashboard = () => {
         value: 0
       })
     }
-  }, []);
+  }, [connectionStatus, sendJsonMessage]);
 
   useEffect(() => {
     console.log("Current state of websocket connection: ", connectionStatus);
@@ -67,7 +64,7 @@ const Dashboard = () => {
     }
 
 
-  }, [lastJsonMessage, services, connectionStatus]);
+  }, [lastJsonMessage, setServices, connectionStatus]);
 
 
   return (
@@ -80,7 +77,6 @@ const Dashboard = () => {
       <ServiceList
         services={services}
         styles={dashboardStyles}
-        websocket={getWebSocket}
       />
     </div>
   );
@@ -121,15 +117,13 @@ const SearchBar = () => (
 const ServiceList = ({
   services,
   styles,
-  websocket
 }: {
   services: Map<string, string>;
   styles: React.CSSProperties;
-  websocket: () => WebSocketLike | null;
 }) => (
   <div style={styles} className="services">
     {Array.from(services.keys()).map((service, index) => (
-      <ListItem key={index} service={service} websocket={websocket}/>
+      <ListItem key={index} service={service}/>
     ))}
   </div>
 );

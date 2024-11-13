@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./Views/Header";
 import Login from "./Views/Login";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./Components/Theme"; // Import themes
 import { ChangeEventHandler } from "react";
@@ -12,13 +12,10 @@ import ServiceLogViewer from "./Views/ServiceLogViewer";
 import DarkMode from "./Components/DarkMode";
 import ServiceProvider from "./Components/ServiceProvider";
 import SelectedServiceProvider from "./Components/SelectedServiceProvider";
-
-
-
+import { WebSocketProvider } from "./Components/WebSocketProvider";
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-
 
   // Load saved theme from localStorage (if any) on component mount
   useEffect(() => {
@@ -60,18 +57,17 @@ function App() {
           </header>
           <ServiceProvider>
             <SelectedServiceProvider>
-              <main className="App-main">
-                <Routes>
-                  <Route path="/" element={<Navigate to={"/home"} />} />
-                  <Route path="/home" element={<Dashboard />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route
-                    path="/logviewer"
-                    element={<ServiceLogViewer />}
-                  />
-                </Routes>
-              </main>
+              <WebSocketProvider>
+                <main className="App-main">
+                  <Routes>
+                    <Route path="/" element={<Navigate to={"/home"} />} />
+                    <Route path="/home" element={<Dashboard />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/logviewer" element={<ServiceLogViewer />} />
+                  </Routes>
+                </main>
+              </WebSocketProvider>
             </SelectedServiceProvider>
           </ServiceProvider>
           <footer style={styles} className="App-footer">
