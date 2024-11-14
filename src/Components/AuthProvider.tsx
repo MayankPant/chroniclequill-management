@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { TokenContext } from "../context/TokenContext";
 import axios from "axios";
+import { redirect, useNavigate } from "react-router-dom";
 
 interface PropType {
   children: React.ReactElement;
@@ -65,6 +66,7 @@ const AuthProvider = (props: PropType) => {
     const logout =  () => {
       localStorage.setItem('accessToken', '');
       setIsAutheticated(false);
+      redirect('/login'); 
 
     };
 

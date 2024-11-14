@@ -1,8 +1,13 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Header from "./Views/Header";
 import Login from "./Views/Login";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { lightTheme, darkTheme } from "./Components/Theme"; // Import themes
 import { ChangeEventHandler } from "react";
@@ -13,6 +18,13 @@ import DarkMode from "./Components/DarkMode";
 import ServiceProvider from "./Components/ServiceProvider";
 import SelectedServiceProvider from "./Components/SelectedServiceProvider";
 import { WebSocketProvider } from "./Components/WebSocketProvider";
+import { TokenContext } from "./context/TokenContext";
+
+// Private route component
+const PrivateRoute: React.FC<PrivateRouteProps> = ({children}) => {
+  const { isAuthenticated } = useContext(TokenContext);
+  return isAuthenticated ? children : <Navigate to={"/login"} replace/>;
+};
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -61,10 +73,31 @@ function App() {
                 <main className="App-main">
                   <Routes>
                     <Route path="/" element={<Navigate to={"/home"} />} />
-                    <Route path="/home" element={<Dashboard />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route
+                      path="/home"
+                      element={
+                        <PrivateRoute>
+                          <Dashboard />
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <PrivateRoute>
+                          <Dashboard />
+                        </PrivateRoute>
+                      }
+                    />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/logviewer" element={<ServiceLogViewer />} />
+                    <Route
+                      path="/logviewer"
+                      element={
+                        <PrivateRoute>
+                          <ServiceLogViewer />
+                        </PrivateRoute>
+                      }
+                    />
                   </Routes>
                 </main>
               </WebSocketProvider>

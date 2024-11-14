@@ -58,3 +58,7 @@ interface WebSocketContextType {
 interface WebSocketProviderProps {
     children: ReactNode;
 }
+
+interface PrivateRouteProps {
+    children: import('react').JSX.Element;
+}
