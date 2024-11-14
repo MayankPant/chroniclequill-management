@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   InputLabel,
   OutlinedInput,
@@ -13,10 +13,14 @@ import ServiceContext from "../context/ServiceContext";
 import "../styles/Dashboard.css";
 import { ReadyState } from "react-use-websocket";
 import { useWebSocketContext } from "../Components/WebSocketProvider";
+import searchService from "../utils/searchService";
 
 const Dashboard = () => {
   const theme = useTheme();
+  // the global storage for all microservices
   const { services, setServices } = useContext(ServiceContext);
+  // the services that are rendered using the search functionality
+  const [renderedServices, setRenderedServices] = useState(services);
   const {sendJsonMessage, lastJsonMessage, readyState} =
     useWebSocketContext();
 
@@ -57,6 +61,10 @@ const Dashboard = () => {
         return updatedServices;
       });
 
+      const updatedServices = searchService('', services);
+      if(updatedServices !== undefined)
+        setRenderedServices(updatedServices);
+
       console.log("Received data:", lastJsonMessage);
     }
     if(connectionStatus === 'Closed'){
@@ -73,9 +81,9 @@ const Dashboard = () => {
         title="Log Viewer"
         description="View and filter logs from your services"
       />
-      <SearchBar />
+      <SearchBar renderedServices={renderedServices} setRenderedServices={setRenderedServices} />
       <ServiceList
-        services={services}
+        services={renderedServices}
         styles={dashboardStyles}
       />
     </div>
@@ -95,7 +103,36 @@ const Header = ({
   </div>
 );
 
-const SearchBar = () => (
+const SearchBar = ({
+  renderedServices,
+  setRenderedServices
+}: {
+  renderedServices: Map<string, string>,
+  setRenderedServices: React.Dispatch<React.SetStateAction<Map<string, string>>>
+}) => {
+  
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { services, setServices} = useContext(ServiceContext);
+
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setSearchTerm(event.target.value);
+      
+  }
+
+  useEffect(() => {
+    const updatedServices = searchService(searchTerm, services);
+      console.log(`Search Term: ${searchTerm}\nUpdated Services after search: ${updatedServices}`);
+      if(updatedServices !== undefined){
+        setRenderedServices(updatedServices);
+      }
+  }, [searchTerm])
+
+
+  
+  return (
+  
+
   <FormControl sx={{ marginTop: "2em", width: "100%" }} variant="outlined">
     <InputLabel htmlFor="search-bar">Search...</InputLabel>
     <OutlinedInput
@@ -110,9 +147,12 @@ const SearchBar = () => (
         </InputAdornment>
       }
       label="Search"
+      value={searchTerm}
+      onChange={handleSearchChange}
+      
     />
   </FormControl>
-);
+)};
 
 const ServiceList = ({
   services,
