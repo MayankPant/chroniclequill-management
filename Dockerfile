@@ -1,26 +1,26 @@
-FROM node:alpine
-WORKDIR '/chronicelquill'
-COPY package.json .
+# Using a multi stage build to reduce the build size
 
-# Copy all local files into the image.
-COPY public/ /chronicelquill/public
-COPY src/ /chronicelquill/src
-COPY package.json /chronicelquill/
-COPY .env /chronicelquill/
-COPY tsconfig.json /chronicelquill/
+# STAGE 1
+
+FROM node:16-alpine AS build
+
+WORKDIR /chronicelquill
+
+COPY package.json ./
+
+RUN yarn  install
+
+COPY . /chronicelquill/
+
+RUN yarn build
 
 
-RUN npm install
+# STAGE 2
 
+FROM nginx:stable-alpine
 
-# Build for production.
-RUN npm run build --production
+COPY --from=build /chronicelquill/build /usr/share/nginx/html
 
-# Install `serve` to run the application.
-RUN npm install -g serve
+EXPOSE 80
 
-# Set the command to start the node server.
-CMD serve -s build
-
-# Tell Docker about the port we'll run on.
-EXPOSE 3000
+CMD ["nginx", "-g", "daemon off;"]

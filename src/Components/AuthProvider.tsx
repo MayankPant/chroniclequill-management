@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { TokenContext } from "../context/TokenContext";
 import axios from "axios";
 import { redirect, useNavigate } from "react-router-dom";
+import ServiceContext from "../context/ServiceContext";
 
 interface PropType {
   children: React.ReactElement;
@@ -12,6 +13,7 @@ const AuthProvider = (props: PropType) => {
   const [refreshToken, setRefreshToken] = React.useState("");
   const [isAuthenticated, setIsAutheticated] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const {services, setServices} = useContext(ServiceContext);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -66,6 +68,7 @@ const AuthProvider = (props: PropType) => {
     const logout =  () => {
       localStorage.setItem('accessToken', '');
       setIsAutheticated(false);
+      setServices(new Map());
       redirect('/login'); 
 
     };
